@@ -19,7 +19,7 @@ const useStyle = makeStyles((theme) => ({
    mainContainer: {
       width: "80%",
       margin: "0 auto",
-      backgroundColor: "lightblue"
+      // backgroundColor: "lightblue"
    },
    top: {
       display: "flex",
@@ -70,8 +70,8 @@ const useStyle = makeStyles((theme) => ({
 
 function Profile({ setRole }) {
    const classes = useStyle();
-   const { id } = jwtDecode(localStorage.getToken());
-
+   // const { id } = jwtDecode(localStorage.getToken());
+ 
    const [username, setUsername] = useState("");
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
@@ -91,9 +91,9 @@ function Profile({ setRole }) {
       setPriceRange(profile.price_range)
    }
 
-   const handleUsername = (event) => {
-      setUsername(event.target.value);
-   };
+   // const handleUsername = (event) => {
+   //    setUsername(event.target.value);
+   // };
 
    const handleEmail = (event) => {
       setEmail(event.target.value);
@@ -129,12 +129,13 @@ function Profile({ setRole }) {
 
    const getProfile = async () => {
       await axios
-         .get(`/partners/${id}`)
+         .get(`/partners/me`)
          .then(res => {
             setInitialState(res.data.targetPartner);
             console.log(res.data.targetPartner);
          })
          .catch(err => {
+            console.dir(err)
             alert("err")
          })
    };
@@ -142,11 +143,10 @@ function Profile({ setRole }) {
    useEffect(() => {
       getProfile();
    }, [])
-   
+
 
    const onFinish = async () => {
       const data = {
-         username, 
          email_address:email, 
          restaurant_name:restaurantName,
          address:address,
@@ -155,7 +155,7 @@ function Profile({ setRole }) {
       }
 
       await axios
-      .post("/partners", data)
+      .put("/partners", data)
       .then(res => {
          alert("Update success")
       })
@@ -214,7 +214,7 @@ function Profile({ setRole }) {
                </Box>
 
                <Box className={classes.profileDetail}>
-                  <Box component="div" className={classes.textBox}>
+                  {/* <Box component="div" className={classes.textBox}>
                      <Typography variant="body1" >
                         Username
                   </Typography>
@@ -227,7 +227,7 @@ function Profile({ setRole }) {
                         onChange={handleUsername}
                         value={username}
                      />
-                  </Box>
+                  </Box> */}
                   <Box component="div" className={classes.textBox}>
                      <Typography variant="body1" >
                         Email
